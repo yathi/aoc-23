@@ -15,7 +15,7 @@ pub fn part2() {
                     continue;
                 }
                 if &line[i..i+num.len()] == *num {
-                    let first = (1+index/2);
+                    let first = 1+index/2;
                     sum += first*10;
                     break 'out;
                 }
@@ -27,7 +27,7 @@ pub fn part2() {
                     continue;
                 }
                 if &line[i..i+num.len()] == *num {
-                    let last = (1+index/2);
+                    let last = 1+index/2;
                     sum += last;
                     break 'out;
                 }
