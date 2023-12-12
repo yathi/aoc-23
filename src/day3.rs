@@ -1,15 +1,13 @@
 use std::{collections::HashSet, fs};
 
 pub fn part1() {
-    let path = "data/day3-sample.txt";
+    let path = "data/day3.txt";
     let contents = fs::read_to_string(path).expect("Should have been able to read the file");
 
-    let mut sum = 0;
     let mut parts = Vec::new();
     let mut symbols: HashSet<(i32, i32)> = HashSet::new();
     let mut curr_part_number: Option<PartNumber> = None;
     for (row, line) in contents.lines().enumerate() {
-        println!("{:?}", line);
         for (col, ch) in line.chars().enumerate() {
             if ch.is_ascii_digit() {
                 if let Some(ref mut part_number) = curr_part_number {
@@ -29,8 +27,13 @@ pub fn part1() {
             }
         }
     }
-    println!("{:?}", parts);
-    println!("{:?}", symbols);
+    let mut sum = 0;
+    for part in parts {
+        if part.surrounding.intersection(&symbols).next().is_some() {
+            sum += part.number;
+        }
+    }
+    println!("{:?}", sum);
 }
 
 #[derive(Debug)]
