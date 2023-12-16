@@ -1,4 +1,4 @@
-use std::fs;
+use std::{collections::HashSet, fs};
 
 pub fn part1() {
     let path = "data/day4.txt";
@@ -33,4 +33,29 @@ pub fn part1() {
         }
     }
     println!("{:?}", sum);
+}
+
+pub fn part2() {
+    let path = "data/day4.txt";
+    let contents = fs::read_to_string(path).expect("Should have been able to read the file");
+
+    let mut multiplier = vec![1; contents.lines().count()];
+    for (index, line) in contents.lines().enumerate() {
+        let (_, cards) = line.split_once(": ").unwrap();
+        let (winning, hand) = cards.split_once(" | ").unwrap();
+        let winning = winning
+            .split(" ")
+            .filter(|win| !win.is_empty())
+            .collect::<HashSet<_>>();
+        let hand = hand
+            .split(" ")
+            .filter(|win| !win.is_empty())
+            .collect::<HashSet<_>>();
+
+        let matches = winning.intersection(&hand).count();
+        for i in index..index + matches {
+            multiplier[i + 1] += multiplier[index];
+        }
+    }
+    println!("{:?}", multiplier.into_iter().sum::<usize>());
 }
